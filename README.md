@@ -90,3 +90,45 @@ Define the modal semantically for assistive tech:
 | Persistent content     | ✅         |
 
 More info: [W3C WCAG 2.1 - Content on Hover or Focus](https://www.w3.org/TR/WCAG21/#content-on-hover-or-focus)
+
+## ❌ Common Accessibility Anti-Patterns – Hover/Tooltip/Modal Interactions
+
+| Anti-Pattern Description                         | Compliant | Why It’s a Problem                                                     |
+|--------------------------------------------------|-----------|------------------------------------------------------------------------|
+| Mouseover-only interaction                       | ❌        | Excludes keyboard and screen reader users                             |
+| Disappears on hover-out                          | ❌        | Violates hoverability & persistence (SC 1.4.13)                        |
+| Tooltip/modal closes on blur                     | ❌        | Prevents interacting with content; breaks user flow                   |
+| No Esc key support                               | ❌        | Users can’t dismiss modal via keyboard (SC 2.1.1, SC 1.4.13)          |
+| Trigger is a non-focusable element (`<div>`)     | ❌        | Not keyboard accessible; fails 2.1.1 unless `tabindex` is added       |
+| Tooltip only appears via CSS `:hover`            | ❌        | Can’t be triggered with keyboard or announced to assistive tech       |
+| ARIA role `dialog` missing or misused            | ❌        | Screen readers don’t recognize the modal properly                     |
+| Tooltip/modal lacks `aria-label` or `aria-labelledby`| ❌    | No accessible name; fails SC 4.1.2                                     |
+| No focus trap in modal                           | ❌        | Users can tab out of modal unintentionally                            |
+| Focus not returned to trigger after close        | ❌        | Breaks logical navigation, confuses screen reader and keyboard users  |
+| Close button is missing or not focusable         | ❌        | Users cannot easily dismiss with assistive technologies               |
+| Tooltip/modal uses `display: none` without handling focus | ❌ | Screen readers lose access to hidden content without a fallback       |
+| Dismisses after short timeout (auto-close)       | ❌        | Doesn’t give users time to interact, especially with screen readers   |
+| Tooltip/modal content is not keyboard navigable  | ❌        | Fails SC 2.1.1, 2.4.3, and breaks tab flow                             |
+| Dynamic content isn’t announced to screen readers| ❌        | Fails SC 4.1.3; no live region or focus shift                         |
+| Tooltip overlays important content               | ❌        | Causes readability or interaction issues                              |
+| Nested modals without clear exit paths           | ❌        | Users get trapped or lost in modal layers                             |
+| Inconsistent keyboard vs. mouse behavior         | ❌        | Violates operable principle of POUR; frustrates users                 |
+| Uses tooltips for essential instructions         | ❌        | Tooltips should be supplemental, not the sole source of info          |
+| Relies on animations that users can't disable    | ❌        | May violate SC 2.3.3 if motion triggers vestibular issues             |
+
+---
+
+### ✅ Reminder: Compliant Tooltip/Modal Behaviors
+
+- Focusable triggers  
+- Opens with focus, Enter, or Space  
+- Persistent until user dismisses  
+- Close via Esc and visible button  
+- Focus is trapped inside modal  
+- Proper ARIA roles (`role="dialog"`, `aria-modal="true"`)  
+- Screen reader announcements  
+- Works for both mouse and keyboard users  
+
+---
+
+**Tip:** Always test with only a keyboard (Tab, Shift+Tab, Enter, Esc) and a screen reader (e.g., NVDA, VoiceOver) to validate compliance.
