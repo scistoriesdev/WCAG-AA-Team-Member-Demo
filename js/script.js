@@ -1,34 +1,40 @@
-const trigger = document.getElementById('trigger-1');
-const modal = document.getElementById('bio-modal-1');
-const closeBtn = modal.querySelector('.close-modal');
+
+const triggers = document.querySelectorAll('.team-trigger');
+const modals = document.querySelectorAll('[role="dialog"]');
 let lastFocused;
 
-function openModal() {
-  lastFocused = document.activeElement;
-  modal.classList.remove('hidden');
-  modal.focus();
-  trapFocus(modal);
-}
+triggers.forEach(trigger => {
+  const modalId = trigger.getAttribute('aria-controls');
+  const modal = document.getElementById(modalId);
+  const closeBtn = modal.querySelector('.close-modal');
 
-function closeModal() {
-  modal.classList.add('hidden');
-  if (lastFocused) lastFocused.focus();
-}
-
-trigger.addEventListener('click', openModal);
-trigger.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    openModal();
+  function openModal() {
+    lastFocused = document.activeElement;
+    modal.classList.remove('hidden');
+    modal.focus();
+    trapFocus(modal);
   }
-});
 
-closeBtn.addEventListener('click', closeModal);
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closeModal();
+  function closeModal() {
+    modal.classList.add('hidden');
+    if (lastFocused) lastFocused.focus();
   }
+
+  trigger.addEventListener('click', openModal);
+  trigger.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openModal();
+    }
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
 });
 
 function trapFocus(element) {
