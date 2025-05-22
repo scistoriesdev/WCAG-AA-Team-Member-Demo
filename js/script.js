@@ -3,7 +3,7 @@ const triggers = document.querySelectorAll('.team-trigger');
 const modals = document.querySelectorAll('[role="dialog"]');
 let lastFocused;
 
-triggers.forEach(trigger => {
+triggers.forEach((trigger, index) => {
   const modalId = trigger.getAttribute('aria-controls');
   const modal = document.getElementById(modalId);
   const closeBtn = modal.querySelector('.close-modal');
@@ -25,6 +25,14 @@ triggers.forEach(trigger => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       openModal();
+    } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = triggers[(index + 1) % triggers.length];
+      next.focus();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = triggers[(index - 1 + triggers.length) % triggers.length];
+      prev.focus();
     }
   });
 
