@@ -1,4 +1,8 @@
-.hidden { display: none; }
+body {
+  font-family: sans-serif;
+}
+.hidden { display: none !important; }
+.visible { display: block; }
 .modal {
   position: fixed;
   top: 20%;
@@ -15,4 +19,11 @@
 button:focus {
   outline: 2px solid #005fcc;
   outline-offset: 2px;
+}
+.group-tabs {
+  margin-bottom: 1em;
+}
+.group-toggle[aria-selected="true"] {
+  font-weight: bold;
+  border-bottom: 2px solid #005fcc;
 }
