@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accessible Bio Modal Demo</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <h1>Meet the Team</h1>
+  <button class="team-trigger" aria-haspopup="dialog" aria-controls="bio-modal-1" id="trigger-1">
+    John Doe
+  </button>
+
+  <div id="bio-modal-1"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="bio-title-1"
+       aria-describedby="bio-content-1"
+       class="modal hidden"
+       tabindex="-1">
+    <div class="modal-content">
+      <h2 id="bio-title-1">About John Doe</h2>
+      <p id="bio-content-1">John is a lead researcher with a focus on virology and AI-driven diagnostics.</p>
+      <button class="close-modal" aria-label="Close Bio Modal">Close</button>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
