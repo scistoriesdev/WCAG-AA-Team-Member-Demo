@@ -1,6 +1,5 @@
 
 const triggers = document.querySelectorAll('.team-trigger');
-const modals = document.querySelectorAll('[role="dialog"]');
 let lastFocused = null;
 
 // Setup event listeners for each trigger
@@ -21,18 +20,13 @@ triggers.forEach(trigger => {
     if (lastFocused) lastFocused.focus();
   }
 
-  trigger.addEventListener('click', openModal);
-
-  closeBtn.addEventListener('click', closeModal);
-
-  // Escape key closes this modal
-  modal.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeModal();
-    }
+  // Mouseover opens modal
+  trigger.addEventListener('mouseenter', () => {
+    openModal();
   });
 
-  // Add keyboard support for Enter/Space and Arrow Nav on triggers
+  // Click or Enter/Space also opens modal
+  trigger.addEventListener('click', openModal);
   trigger.addEventListener('keydown', (e) => {
     const currentIndex = Array.from(triggers).indexOf(trigger);
     if (e.key === 'Enter' || e.key === ' ') {
@@ -48,9 +42,26 @@ triggers.forEach(trigger => {
       prev.focus();
     }
   });
+
+  // Close modal on button or Escape key
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // Ensure hoverable content does not disappear when hovered
+  modal.addEventListener('mouseenter', () => {
+    clearTimeout(modal._hoverTimeout);
+  });
+  modal.addEventListener('mouseleave', () => {
+    modal._hoverTimeout = setTimeout(() => closeModal(), 300);
+  });
+  trigger.addEventListener('mouseleave', () => {
+    modal._hoverTimeout = setTimeout(() => closeModal(), 300);
+  });
 });
 
-// Focus trap inside modal
+// Trap focus inside modal
 function trapFocus(element) {
   const focusableElements = element.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
   const firstEl = focusableElements[0];
