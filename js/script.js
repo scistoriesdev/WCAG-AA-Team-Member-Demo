@@ -1,9 +1,10 @@
 
 const triggers = document.querySelectorAll('.team-trigger');
 const modals = document.querySelectorAll('[role="dialog"]');
-let lastFocused;
+let lastFocused = null;
 
-triggers.forEach((trigger, index) => {
+// Setup event listeners for each trigger
+triggers.forEach(trigger => {
   const modalId = trigger.getAttribute('aria-controls');
   const modal = document.getElementById(modalId);
   const closeBtn = modal.querySelector('.close-modal');
@@ -21,30 +22,35 @@ triggers.forEach((trigger, index) => {
   }
 
   trigger.addEventListener('click', openModal);
+
+  closeBtn.addEventListener('click', closeModal);
+
+  // Escape key closes this modal
+  modal.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
+
+  // Add keyboard support for Enter/Space and Arrow Nav on triggers
   trigger.addEventListener('keydown', (e) => {
+    const currentIndex = Array.from(triggers).indexOf(trigger);
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       openModal();
     } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
       e.preventDefault();
-      const next = triggers[(index + 1) % triggers.length];
+      const next = triggers[(currentIndex + 1) % triggers.length];
       next.focus();
     } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
       e.preventDefault();
-      const prev = triggers[(index - 1 + triggers.length) % triggers.length];
+      const prev = triggers[(currentIndex - 1 + triggers.length) % triggers.length];
       prev.focus();
-    }
-  });
-
-  closeBtn.addEventListener('click', closeModal);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeModal();
     }
   });
 });
 
+// Focus trap inside modal
 function trapFocus(element) {
   const focusableElements = element.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
   const firstEl = focusableElements[0];
