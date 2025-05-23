@@ -91,6 +91,36 @@ Define the modal semantically for assistive tech:
 
 More info: [W3C WCAG 2.1 - Content on Hover or Focus](https://www.w3.org/TR/WCAG21/#content-on-hover-or-focus)
 
+## ✅ WCAG 2.1 AA Compliance Chart – Hover/Tooltip/Modal Interactions
+
+| Feature                                       | Compliant | Notes                                                                 |
+|-----------------------------------------------|-----------|-----------------------------------------------------------------------|
+| Mouseover only                                | ❌        | Not accessible to keyboard or screen reader users                    |
+| Mouseover + keyboard                          | ✅        | Both pointer and keyboard users can access the content               |
+| Focusable trigger element                     | ✅        | Uses `<button>`, `<a>`, or any element with `tabindex="0"`           |
+| Opens on focus or keypress (`Enter` / `Space`)| ✅        | Ensures keyboard accessibility                                       |
+| Opens on hover (optional)                     | ✅        | Can be supported *in addition to* keyboard access                    |
+| Closes on Esc key                             | ✅        | Allows easy dismissal via keyboard                                   |
+| Has visible close button                      | ✅        | Required for users who rely on visible UI to dismiss content         |
+| Persistent content (stays visible until action)| ✅       | Complies with 1.4.13 persistence requirement                         |
+| Disappears on blur or hover-out               | ❌        | Fails persistence/hoverability criteria                              |
+| Tooltip/modal is dismissible without pointer  | ✅        | Must work without mouse (e.g., Esc key)                              |
+| Trap focus within modal                       | ✅        | Keeps keyboard users inside modal (use focus trap logic)             |
+| Returns focus to trigger after close          | ✅        | Required for logical keyboard navigation                             |
+| Uses ARIA roles (`role="dialog"`, `aria-modal`)| ✅        | Helps screen readers understand modal purpose                        |
+| Uses `aria-labelledby` or `aria-label`        | ✅        | Labels modal for screen readers                                      |
+| Avoids `display: none` without focus handling | ❌        | Hides content from assistive tech; must use accessible toggling      |
+| Screen reader announces open/close            | ✅        | Use `aria-live` regions or clear focus flow                          |
+| Works with screen magnifiers                  | ✅        | Avoid placement that goes off-screen or vanishes                     |
+| No auto-dismiss after timeout                 | ✅        | Time-based dismissal violates persistence requirement                |
+| Tested on keyboard-only navigation            | ✅        | Manual QA with `Tab`, `Shift+Tab`, `Enter`, `Esc` is essential       |
+
+---
+
+### Summary
+- ✅ = Meets WCAG 2.1 AA requirements
+- ❌ = Violates compliance and should be fixed
+
 ## ❌ Common Accessibility Anti-Patterns – Hover/Tooltip/Modal Interactions
 
 | Anti-Pattern Description                         | Compliant | Why It’s a Problem                                                     |
